@@ -1,9 +1,32 @@
 language: node_js
+sudo: false
 node_js:
   - "0.10"
   - "0.12"
   - "4"
-sudo: false
+  - "5"
+matrix:
+  include:
+    - node_js: stable
+      env:
+        - secure: "OJ+2jNLAR7R3IEqqoJbLK3xRcozXDaOqBawsRsQxigJtsPnV2dNVjUs8uai0TfQqvfQEELRiD89q2gC245jEM2Tq/FOm+f9C04TMsjFx5LbFHWBQK5IbOb01XJt21hlPE2kqisbCA6PsvJ5Gm7lC/jGLTOnZJDr/Hb/K+IYlDpI="
+        - secure: "Yb4rGWsVJ7aAukvaguEWoGcaLEJXU03skxlGrW3zxEe24QxYYQx2M/QFEjBZb9EIQ23o8h4GsZyuCvuDFMwTEh5ExGI8zAxOFrMtBEephk9p0wpZdkLdH7kQrLa9/civlAa6nEneUPvpxDIeHri4Zusk7AAEeYwGRRUJOAvYJtw="
+      addons:
+        firefox: latest
+        apt:
+          sources:
+          - google-chrome
+          packages:
+          - google-chrome-stable
+      script:
+      - npm install -g web-component-tester
+      - npm install -g bower
+      - bower install
+      - xvfb-run wct
+      - |
+        if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
+          wct -s 'default'
+        fi
 before_script:
   - npm install -g mocha
   - npm install -g jshint
