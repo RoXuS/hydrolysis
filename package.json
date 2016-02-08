@@ -25,6 +25,7 @@
     "build"  : "npm run compile && browserify -d -r ./index.js:hydrolysis -o hydrolysis.js",
     "release": "npm run compile && browserify -r ./index.js:hydrolysis -o hydrolysis.js",
     "build:watch": "watch 'npm run build' ./src",
+    "postinstall": "if [ ! -d lib ]; then mkdir lib; npm install --ignore-scripts --only=dev; npm run compile; fi;",
     "apidocs": "node_modules/jsdoc-to-markdown/bin/cli.js {index.js,lib/{analyzer,loader/*}.js} > API.md",
     "test": "npm run build && wct && mocha test/test.js",
     "testNode": "npm run build && mocha test/test.js"
